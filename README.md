@@ -46,25 +46,28 @@ data/create_dragons_plus/tags/blocks/fan_processing_catalysts/coloring/<颜色>.
 
 ## 安装方法
 
-数据包内为 `pack.mcmeta` + `data/`，两种安装方式任选其一：
+数据包内为 `pack.mcmeta` + `data/`。**推荐放进具体世界的 `datapacks/` 文件夹**（对单存档生效，最稳妥）：
 
-### 方式一：放入 `mods/` 文件夹（推荐，对所有存档生效）
-
-将发布页的 **`create-connected-cdp-coloring-fix-1.0.0.zip`** 直接拖入 `.minecraft/mods/` 即可。
-（Forge/NeoForge 会将含有合法 `pack.mcmeta` 的 zip 作为内置数据包加载。）
-
-### 方式二：放入具体世界的 `datapacks/` 文件夹（仅对单个存档生效）
-
-1. 解压 zip，得到 `create-connected-cdp-coloring-fix/` 文件夹（内含 `pack.mcmeta` 与 `data/`）。
+1. 解压发布页的 zip，得到 `create-connected-cdp-coloring-fix/` 文件夹（内含 `pack.mcmeta` 与 `data/`）。
 2. 复制到 `saves/<你的世界名>/datapacks/create-connected-cdp-coloring-fix/`。
-3. 进入游戏执行 `/reload`，或在世界设置中启用该数据包。
+3. **完全重启世界**（仅 `/reload` 有时不足以重算标签），进入后 `/datapack list enabled` 应能看到该包。
+
+也可以直接把 **`create-connected-cdp-coloring-fix-1.0.0.zip`** 丢进 `saves/<世界名>/datapacks/`（MC 认 zip）。
+
+> 注意：部分 Forge 版本**不会**把放在 `mods/` 里的普通 zip 当数据包加载，故不建议放 `mods/`。
+
+> ⚠️ 打包注意：本 zip 已使用正斜杠 `/` 规范打包。若自行重新打包，**不要**用 Windows PowerShell 5.1 的 `Compress-Archive`——它会写入反斜杠 `\` 分隔符，导致 MC 能识别数据包（显示已启用）却读不到 `data/` 内的文件，表现为「已启用但完全无效」。
 
 ## 验证
 
-1. 安装后进入世界，执行 `/reload`。
-2. 放置一台鼓风机，气流方向末端放一个 `create_connected` 的染色触媒方块（如绿色染色触媒）。
-3. 启动鼓风机，应在触媒处看到对应颜色的染色粒子。
-4. 在气流通道中放入可染色物品（如 CDP 批量染色配方所需的物品），即可被批量染色。
+1. 安装后重启世界，执行 `/reload`。
+2. **先确认标签是否生效**：站在触媒方块上执行
+   `/execute if block ~ ~ ~ #create_dragons_plus:fan_processing_catalysts/coloring/green run say TAG_OK`
+   出现 `TAG_OK` 即表示标签已加载。
+3. 放置鼓风机，气流方向末端放一个 `create_connected` 的染色触媒方块（如绿色染色触媒），启动鼓风机：
+   **气流本身应被染成对应颜色**——这是着色生效最直观的信号。
+4. 用**传送带**让可染色物品穿过气流即可被批量染色（直接丢在地上会掉出气流，看不出效果）。
+   染色粉尘粒子为低概率生成，没有粒子不代表未生效，以气流颜色为准。
 
 ## 文件结构
 
